@@ -18,5 +18,19 @@ var firebaseConfig = {
       var trainName = $("#train-name-input").val().trim();
       var trainDest = $("#destination-input").val().trim();
       var trainTime = $("#train-time-input").val().trim();
-      var trainFreq = $("#frequency-input").val().trim()
+      var trainFreq = $("#frequency-input").val().trim();
+
+      var newTrain = {
+          name: trainName,
+          destination: trainDest,
+          time: trainTime,
+          frequency: trainFreq
+      };
+
+      database.ref().push(newTrain);
+
+      console.log(newTrain.name)
+      console.log(newTrain.destination)
+      console.log(newTrain.time)
+      console.log(newTrain.frequency)
   })
