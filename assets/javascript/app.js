@@ -10,4 +10,13 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  
+  var database = firebase.database();
+
+  $("#add-train-btn").on("click", function(event) {
+      event.preventDefault();
+
+      var trainName = $("#train-name-input").val().trim();
+      var trainDest = $("#destination-input").val().trim();
+      var trainTime = $("#train-time-input").val().trim();
+      var trainFreq = $("#frequency-input").val().trim()
+  })
