@@ -9,7 +9,7 @@ var firebaseConfig = {
 
   var database = firebase.database();
 
-  $("#add-train-btn").on("click", function(event) {
+  $("#add-train").on("click", function(event) {
       event.preventDefault();
 
       var trainName = $("#train-name-input").val().trim();
@@ -32,4 +32,4 @@ var firebaseConfig = {
       console.log(newTrain.frequency)
 
       alert("Added Train!!")
-  })
+  });
