@@ -32,4 +32,9 @@ var firebaseConfig = {
       console.log(newTrain.frequency)
 
       alert("Added Train!!")
+
+      $("#train-name-input").val("");
+      $("#destination-input").val("");
+      $("#train-time-input").val("");
+      $("#frequency-input").val("");
   });
