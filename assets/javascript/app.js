@@ -9,8 +9,13 @@ var firebaseConfig = {
 
   var database = firebase.database();
 
-  let timer = moment().format('h:mm:ss a');
-  $("#currentTimer").append(timer);
+  function currentTimer(){
+      var clock = moment().format('h:mm:ss a');
+      $("#currentTime").html(clock);
+      setTimeout(currentTimer, 1000);
+  };
+//   let timer = moment().format('h:mm:ss a');
+//   $("#currentTimer").append(timer);
 
   $("#add-train").on("click", function(event) {
       event.preventDefault();
@@ -49,13 +54,14 @@ var firebaseConfig = {
       var trDest = childSnapshot.val().destination;
       var trTime = childSnapshot.val().time;
       var trFreq = childSnapshot.val().frequency;
+      var key = childSnapshot.key;
+
 
       console.log(trName);
       console.log(trDest);
       console.log(trTime);
       console.log(trFreq);
       
-
       // First Time (pushed back 1 year to make sure it comes before current time)
     var trTimeConverted = moment(trTime, "HH:mm").subtract(1, "years");
     console.log(trTimeConverted);
@@ -83,6 +89,7 @@ var firebaseConfig = {
     //converting next train time to standard time (issue with initial conversion)
     var convertedtrTime = moment(trTime, "HH:mm").format("hh:mm")
 
+
       //Create Row for Train details
       var trainRow = $("<tr>").append(
           $("<td>").text(trName),
@@ -90,8 +97,22 @@ var firebaseConfig = {
           $("<td>").text(trFreq),
           $("<td>").text(convertedtrTime),
           $("<td>").text(tMinutesTillTrain),
+          $("<td class='text-center'><button class='arrival btn btn-light btn-xs' data-key='" + key + "'>X</button></td>") ,
       );
 
 
       $("#train-table > tbody").append(trainRow)
   });
+
+  $(document).on("click", ".arrival", function() {
+    keyref = $(this).attr("data-key");
+    database.ref().child(keyref).remove();
+    window.location.reload();
+  });
+  
+
+  currentTimer();
+
+  setInterval(function() {
+    window.location.reload();
+  }, 60000);
