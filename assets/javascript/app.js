@@ -38,3 +38,38 @@ var firebaseConfig = {
       $("#train-time-input").val("");
       $("#frequency-input").val("");
   });
+
+  database.ref().on("child_added", function(childSnapshot) {
+      console.log(childSnapshot.val());
+
+      var trName = childSnapshot.val().name;
+      var trDest = childSnapshot.val().destination;
+      var trTime = childSnapshot.val().time;
+      var trFreq = childSnapshot.val().frequency;
+
+      console.log(trName);
+      console.log(trDest);
+      console.log(trTime);
+      console.log(trFreq);
+
+      // convert military time to Next Arrival Time 
+      var nxTime = moment(trTime, "HH:mm").format("hh:mm");
+
+
+      // use Current time and subtract from next arrival time.
+      var minAway = moment().diff(moment(trTime, "X"), "months")
+
+      console.log(minAway)
+
+      //Create Row for Train details
+      var trainRow = $("<tr>").append(
+          $("<td>").text(trName),
+          $("<td>").text(trDest),
+          $("<td>").text(trFreq),
+          $("<td>").text(nxTime),
+          $("<td>").text(minAway),
+      );
+
+
+      $("#train-table > tbody").append(trainRow)
+  });
