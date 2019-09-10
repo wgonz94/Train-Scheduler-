@@ -9,5 +9,5 @@ What does the project do?
 
 Why the project is useful?
 
--This project is useful because it applies the principles of moment.js, Firebase, event.preventDefault();, and a database. this assignment dynamically creates rows with information from the user input.
+-This project is useful because it applies the principles of moment.js, Firebase, event.preventDefault();, and a database. This assignment dynamically creates rows with information from the user input.
 
