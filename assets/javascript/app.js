@@ -103,7 +103,8 @@ var firebaseConfig = {
 
       $("#train-table > tbody").append(trainRow)
   });
-
+  
+// click event for delete function 
   $(document).on("click", ".arrival", function() {
     keyref = $(this).attr("data-key");
     database.ref().child(keyref).remove();
