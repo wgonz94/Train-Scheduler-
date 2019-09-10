@@ -9,6 +9,9 @@ var firebaseConfig = {
 
   var database = firebase.database();
 
+  let timer = moment().format('h:mm:ss a');
+  $("#currentTimer").append(timer);
+
   $("#add-train").on("click", function(event) {
       event.preventDefault();
 
@@ -51,23 +54,42 @@ var firebaseConfig = {
       console.log(trDest);
       console.log(trTime);
       console.log(trFreq);
+      
 
-      // convert military time to Next Arrival Time 
-      var nxTime = moment(trTime, "HH:mm").format("hh:mm");
+      // First Time (pushed back 1 year to make sure it comes before current time)
+    var trTimeConverted = moment(trTime, "HH:mm").subtract(1, "years");
+    console.log(trTimeConverted);
 
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
-      // use Current time and subtract from next arrival time.
-      var minAway = moment().diff(moment(trTime, "X"), "months")
+    // Difference between the times
+    var diffTime = moment().diff(moment(trTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
 
-      console.log(minAway)
+    // Time apart (remainder)
+    var tRemainder = diffTime % trFreq;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    var tMinutesTillTrain = trFreq - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train
+    var nxTime = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nxTime).format("hh:mm"));
+
+    //converting next train time to standard time (issue with initial conversion)
+    var convertedtrTime = moment(trTime, "HH:mm").format("hh:mm")
 
       //Create Row for Train details
       var trainRow = $("<tr>").append(
           $("<td>").text(trName),
           $("<td>").text(trDest),
           $("<td>").text(trFreq),
-          $("<td>").text(nxTime),
-          $("<td>").text(minAway),
+          $("<td>").text(convertedtrTime),
+          $("<td>").text(tMinutesTillTrain),
       );
 
 
